@@ -13,6 +13,6 @@ def temp(id):
                 )
 
     if not errorIndication and not errorStatus:
-        return int(temp_re.search(varBind[0].prettyPrint()).groupdict()['temp'])
+        return int(temp_re.search(varBinds[0].prettyPrint()).groupdict()['temp'])
     else:
         return 0
