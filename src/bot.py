@@ -23,8 +23,8 @@ def get_temp(message):
 @bot.message_handler(commands=["squeue"])
 @auth
 def get_queue(message):
-    res = subprocess.run(['squeue', '-o', '%.5i %.9P %.8j %.8u %.2t %.10M %.6D'], stdout=subprocess.PIPE)
-    bot.send_message(message.chat.id, res.stdout)
+    res = subprocess.run(['squeue', '-o', '%.5i %.9P %.8j %.8u %.2t %.10M %.1D'], stdout=subprocess.PIPE)
+    bot.send_message(message.chat.id, "<pre>{}</pre>".format(res.stdout.decode('utf-8')), parse_mode="HTML")
 
 if __name__ == '__main__':
      bot.polling(none_stop=True)
