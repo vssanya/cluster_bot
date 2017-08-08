@@ -27,4 +27,4 @@ def get_queue(message):
     bot.send_message(message.chat.id, "<pre>{}</pre>".format(res.stdout.decode('utf-8')), parse_mode="HTML")
 
 if __name__ == '__main__':
-     bot.polling(none_stop=True)
+     bot.polling(none_stop=True, interval=5, timeout=20)
