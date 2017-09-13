@@ -3,13 +3,18 @@ import netboxz
 import telebot
 import time
 import subprocess
+import models
 
 
 def auth(handler):
     def wrapper_handler(message):
+        try:
+            chat = models.Chat.select().where(id=message.chat.id).get()
+        except models.Chat.DoesNotExist:
+            return
+
         print(message.chat.id)
-        if message.chat.id in config.white_chat_list:
-            handler(message)
+        handler(message)
 
     return wrapper_handler
 

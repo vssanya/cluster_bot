@@ -1,2 +1,5 @@
 pytelegrambotapi
 pysnmp
+
+aiohttp
+peewee
