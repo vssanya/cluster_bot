@@ -3,6 +3,7 @@ import netboxz
 import telebot
 import time
 import subprocess
+import memstat
 
 
 def auth(handler):
@@ -26,5 +27,12 @@ def get_queue(message):
     res = subprocess.run(['squeue', '-o', '%.5i %.9P %.8j %.8u %.2t %.10M %.1D'], stdout=subprocess.PIPE)
     bot.send_message(message.chat.id, "<pre>{}</pre>".format(res.stdout.decode('utf-8')), parse_mode="HTML")
 
+@bot.message_handler(commands=["memstat"])
+@auth
+def get_memstat(message):
+    memdata = memstat.format_memdata(config.node_list)
+    bot.send_message(message.chat.id, memdata)
+
 if __name__ == '__main__':
      bot.polling(none_stop=True)
+
