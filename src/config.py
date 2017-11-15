@@ -6,9 +6,10 @@ host = os.environ.get('CB_HOST', 'localhost')
 port = os.environ.get('CB_PORT', 8080)
 
 temp_update_time = 60*10
+mem_update_time = 3*60*10
+
 crit_temp = 30
 
-swap_update_time_multiplier = 3 # checking swap usage X times less often than temp
 swap_overuse_threshold = 0.05
 
 node_list = ['master',
