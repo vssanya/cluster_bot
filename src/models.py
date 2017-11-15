@@ -23,14 +23,12 @@ class Chat(Model):
         database = db
 
 
-class Job(Model):
-    id = IntegerField(unique=True)
+class JobStatus(Model):
+    job_id = IntegerField()
     user = ForeignKeyField(User, related_name='jobs')
 
-    start_time = DateTimeField(default=datetime.datetime.now)
+    time = DateTimeField(default=datetime.datetime.now)
     status = FloatField(default=0.0)
-
-    prediction_end_time = DateTimeField(null=True)
 
     class Meta:
         database = db

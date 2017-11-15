@@ -3,3 +3,5 @@ pysnmp
 
 aiohttp
 peewee
+
+tabulate
