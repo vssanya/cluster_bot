@@ -1,10 +1,11 @@
-import config
-import netboxz
 import telebot
 import time
 import subprocess
 import tabulate
 
+import config
+import netboxz
+import memstat
 import models
 
 
@@ -43,6 +44,12 @@ def get_temp(message, user):
 def get_queue(message, user):
     res = subprocess.run(['squeue', '-o', '%.5i %.9P %.8j %.8u %.2t %.10M %.1D'], stdout=subprocess.PIPE)
     bot.send_message(message.chat.id, "<pre>{}</pre>".format(res.stdout.decode('utf-8')), parse_mode="HTML")
+
+@bot.message_handler(commands=["memstat"])
+@auth
+def get_memstat(message, user):
+    memdata = memstat.format_memdata(config.node_list)
+    bot.send_message(message.chat.id, "<pre>{}</pre>".format(memdata), parse_mode="HTML")
 
 if __name__ == '__main__':
     while True:
