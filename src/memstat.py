@@ -1,3 +1,4 @@
+import multiprocessing as mult
 import re
 import subprocess
 import tabulate
@@ -46,8 +47,9 @@ def get_nodes_overusing_swap(node_list, overuse_threshold=0.05):
 
 def format_memdata(node_list):
     data = []
-    for node in node_list:
-        meminfo = get_meminfo(node)
+    with mult.Pool(20) as pool:
+        meminfo_list = pool.map(get_meminfo, node_list)
+    for i, meminfo in enumerate(meminfo_list):
         if meminfo['MemTotal'] > 0:
             mem = '{0:.1f}G/{1:.1f}G'.format(
                 (meminfo['MemTotal'] - meminfo['MemFree'] - meminfo['Buffers'] - meminfo['Cached']) / 1048576,
@@ -62,6 +64,6 @@ def format_memdata(node_list):
         else:
             swap = '?/?'
 
-        data.append([node, mem, swap])
+        data.append([node_list[i], mem, swap])
 
     return tabulate.tabulate(data, headers=['Node', 'RAM\n(used/total)', 'Swap\n(used/total)'], stralign="right")
