@@ -4,16 +4,13 @@ import tabulate
 
 
 def get_meminfo(node_id='master'):
-    memtotal = 0
-    memfree = 0
-    swaptotal = 0
-    swapfree = 0
-
     meminfo = {
-        'MemTotal' : memtotal,
-        'MemFree' : memfree,
-        'SwapTotal' : swaptotal,
-        'SwapFree' : swapfree
+        'MemTotal' : 0,
+        'MemFree' : 0,
+        'Buffers' : 0,
+        'Cached' : 0,
+        'SwapTotal' : 0,
+        'SwapFree' : 0,
     }
 
     try:
@@ -53,7 +50,7 @@ def format_memdata(node_list):
         meminfo = get_meminfo(node)
         if meminfo['MemTotal'] > 0:
             mem = '{0:.1f}G/{1:.1f}G'.format(
-                (meminfo['MemTotal'] - meminfo['MemFree']) / 1048576,
+                (meminfo['MemTotal'] - meminfo['MemFree'] - meminfo['Buffers'] - meminfo['Cached']) / 1048576,
                 meminfo['MemTotal'] / 1048576)
         else:
             mem = '?/?'
@@ -67,4 +64,4 @@ def format_memdata(node_list):
 
         data.append([node, mem, swap])
 
-    return tabulate.tabulate(data, headers=['Node', 'RAM (used/total)', 'Swap (used/total)'], stralign="right")
+    return tabulate.tabulate(data, headers=['Node', 'RAM\n(used/total)', 'Swap\n(used/total)'], stralign="right")
