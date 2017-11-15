@@ -25,4 +25,4 @@ app['bot'] = telebot.TeleBot(config.token)
 app.on_startup.append(start_background_tasks)
 app.on_cleanup.append(cleanup_background_tasks)
 
-web.run_app(app, host="localhost", port=8080)
+web.run_app(app, host=config.host, port=config.port)

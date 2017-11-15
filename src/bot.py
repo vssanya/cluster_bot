@@ -10,12 +10,12 @@ import models
 
 def auth(handler):
     def wrapper_handler(message):
+        print("Message from ", message.chat.id)
         try:
-            chat = models.Chat.select().where(id=message.chat.id).get()
+            chat = models.Chat.select().where(models.Chat.id == message.chat.id).get()
         except models.Chat.DoesNotExist:
             return
 
-        print(message.chat.id)
         handler(message, chat.user)
 
     return wrapper_handler
@@ -36,7 +36,7 @@ def get_temp(message, user):
             ['Back'   , netboxz.temp(3)],
     ]
     table = tabulate.tabulate(data, headers=['Loc', 'Temp (C)'])
-    bot.send_message(message.chat.id, '<pre></pre>'.format(table), parse_mode='HTML')
+    bot.send_message(message.chat.id, '<pre>{}</pre>'.format(table), parse_mode='HTML')
 
 @bot.message_handler(commands=["squeue"])
 @auth
@@ -45,4 +45,8 @@ def get_queue(message, user):
     bot.send_message(message.chat.id, "<pre>{}</pre>".format(res.stdout.decode('utf-8')), parse_mode="HTML")
 
 if __name__ == '__main__':
-     bot.polling(none_stop=True, interval=5, timeout=20)
+    while True:
+        try:
+            bot.polling(none_stop=True, interval=5, timeout=20)
+        except Exception as err:
+            time.sleep(30)
