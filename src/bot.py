@@ -39,6 +39,26 @@ def get_temp(message, user):
     table = tabulate.tabulate(data, headers=['Loc', 'Temp (C)'])
     bot.send_message(message.chat.id, '<pre>{}</pre>'.format(table), parse_mode='HTML')
 
+@bot.message_handler(commands=["login"])
+def login(message):
+    try:
+        chat = models.Chat.select().where(models.Chat.id == message.chat.id).get()
+        bot.send_message(message.chat.id, "Already logged in")
+    except models.Chat.DoesNotExist:
+        args = message.text.split()
+        if len(args) == 2:
+            token = args[1]
+            try:
+                user = models.User.select().where(models.User.token == token).get()
+            except models.User.DoesNotExist:
+                bot.send_message(message.chat.id, "Login failed")
+                return
+
+            models.Chat.create(user=user, id=message.chat.id)
+            bot.send_message(message.chat.id, "Login successful")
+        else:
+            bot.send_message(message.chat.id, "Login failed")
+
 @bot.message_handler(commands=["squeue"])
 @auth
 def get_queue(message, user):
@@ -56,4 +76,5 @@ if __name__ == '__main__':
         try:
             bot.polling(none_stop=True, interval=5, timeout=20)
         except Exception as err:
+            print(err)
             time.sleep(30)
