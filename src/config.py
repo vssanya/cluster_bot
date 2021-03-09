@@ -2,23 +2,29 @@ import os
 
 token = os.environ.get('TB_TOKEN')
 
-host = os.environ.get('CB_HOST', 'localhost')
+host = os.environ.get('CB_HOST', '10.10.0.254')
 port = os.environ.get('CB_PORT', 8080)
 
 temp_update_time = 60 * 10
 mem_update_time = 3 * 60 * 10
 disk_usage_update_time = 60 * 60 * 24
 
-crit_temp = 30
+crit_temp = 29
 
 swap_overuse_threshold = 0.05
 
 disk_usage_monitor_folder = '/share/'
 disk_usage_threshold = 18 * 1024 * 1024 * 1024 * 1024
 
-node_list = ['master',
+node_list = [
+    'master',
     'n01', 'n02', 'n03', 'n04', 'n05', 'n06', 'n07', 'n08', 'n09', 'n10',
     'n11', 'n12', 'n13', 'n14', 'n15', 'n16', 'n17', 'n18', 'n19', 'n20',
-           'n22', 'n23', 'n24', 'n25', 'n26', 'n27', 'n28', 'n29', 'n30',
-    'n31', 'n32', 'n33', 'n34', 'n35', 'n36', 'n37', 'n38']
+    'n21', 'n22', 'n23', 'n24', 'n25', 'n26', 'n27', 'n28', 'n29', 'n30',
+    'n31', 'n33', 'n33', 'n34', 'n35', 'n36', 'n37', 'n38']
 
+webhook_url_base = 'https://telbotproxy.herokuapp.com'
+webhook_url_path = '/bot/{}/'.format(token)
+
+webhook_host = 'localhost'
+webhook_port = 8007

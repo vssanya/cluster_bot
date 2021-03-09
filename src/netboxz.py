@@ -4,7 +4,6 @@ from pysnmp.hlapi import *
 temp_re = re.compile(r"^.+ = (?P<temp>[0-9]+)$")
 
 def temp(id):
-    return 20
     errorIndication, errorStatus, errorIndex, varBinds = next(
             getCmd(SnmpEngine(),
                 CommunityData('public', mpModel=0),

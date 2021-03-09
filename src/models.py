@@ -30,5 +30,8 @@ class JobStatus(Model):
     time = DateTimeField(default=datetime.datetime.now)
     status = FloatField(default=0.0)
 
+    def __str__(self):
+        return "JobId: {}, Status: {}".format(self.job_id, self.status)
+
     class Meta:
         database = db

@@ -7,9 +7,9 @@ import models
 import memstat
 import subprocess
 
-last_temp = 0
 
 async def check_cluster_temp(app):
+    last_temp = 0
     while True:
         Tmax = max(map(netboxz.temp, range(1,4)))
         print('Check temp: Tmax = {}'.format(Tmax))
@@ -38,6 +38,7 @@ async def check_swap_usage(app):
 
         await asyncio.sleep(config.mem_update_time)
 
+        
 async def check_disk_usage(app):
     base_folder = config.disk_usage_monitor_folder
     while True:
@@ -55,3 +56,8 @@ async def check_disk_usage(app):
                 app['bot'].send_message(chat.id, message)
 
         await asyncio.sleep(config.disk_usage_update_time)
+        
+async def start_group_message(app):
+    return
+    for chat in models.Chat.select().where(models.Chat.user == None):
+        app['bot'].send_message(chat.id, "I'm ready to work!")
