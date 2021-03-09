@@ -5,12 +5,16 @@ token = os.environ.get('TB_TOKEN')
 host = os.environ.get('CB_HOST', '10.10.0.254')
 port = os.environ.get('CB_PORT', 8080)
 
-temp_update_time = 60*2
-mem_update_time = 60*60*2
+temp_update_time = 60 * 10
+mem_update_time = 3 * 60 * 10
+disk_usage_update_time = 60 * 60 * 24
 
 crit_temp = 29
 
 swap_overuse_threshold = 0.05
+
+disk_usage_monitor_folder = '/share/'
+disk_usage_threshold = 18 * 1024 * 1024 * 1024 * 1024
 
 node_list = [
     'master',
